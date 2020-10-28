@@ -1,0 +1,17 @@
+ - JavaTest.java -
+* JavaTest.1.in:
+ACCEPTED
+
+* JavaTest.2.in:
+ACCEPTED
+
+* JavaTest.3.in:
+TIME LIMIT EXCEEDED
+
+* JavaTest.4.in:
+ACCEPTED
+
+* JavaTest.6.in:
+WRONG ANSWER
+ev: check JavaTest.6.out.user for help
+

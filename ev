@@ -1,0 +1,380 @@
+#!/bin/bash
+# Smart tool for task testing in Competitive Programming.
+#
+# Copyright (C) 2014 Herman Zvonimir Došilović
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+# specify your C compiler
+GCC=gcc
+
+# specify your C++ compiler
+GPP=g++
+
+# specify your Ruby interpreter
+RUBY=ruby
+
+# specify your Python interpreter
+PYTHON=python
+
+# specify your Bash interpreter
+BASH=bash
+
+# colors settings
+if [ "$EVC" == "true" ]; then
+  NC="\033[0m" # no color
+  R="\033[0;31m" # red
+  G="\033[0;32m" # green
+  Y="\033[0;33m" # yellow
+  GY="\033[0;37m" # light gray
+  C="\033[36m" # cyan
+fi
+
+if [[ ! $EVT =~ ^[1-9][0-9]*$ ]]; then
+  EVT="1"
+fi
+
+# find last modified .c, .cpp, .py, .rb or .java file
+if [[ -n $1 ]]; then
+  source="$1"
+else
+  source=$(ls -tr *.{c,cpp,rb,py,java} 2> /dev/null | tail -n -1)
+fi
+# get file extension
+extension=${source##*.}
+# get file name
+name=${source%%.*}
+
+compile() {
+  # compile source if c, cpp or java file
+  if [ "$extension" == "c" ]; then
+    errors=$($GCC "$source" -o "$name".out 2>&1> /dev/null)
+  elif [ "$extension" == "cpp" ]; then
+    errors=$($GPP "$source" -o "$name".out 2>&1> /dev/null)
+  elif [ "$extension" == "java" ]; then
+    errors=$(javac "$source" 2>&1> /dev/null)
+  fi
+
+  # if compile errors occurred then cannot continue
+  if [[ $? > 0 ]]; then
+    echo -e "${R}COMPILATION ERROR$NC"
+    echo "$errors"
+    exit
+  fi
+
+  # specify command and what file to execute
+  if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
+    command="./"
+    execute="$name".out
+  elif [ "$extension" == "java" ]; then
+    command="java "
+    execute=$name
+  elif [ "$extension" == "rb" ]; then
+    command="$RUBY "
+    execute="$source"
+  elif [ "$extension" == "py" ]; then
+    command="$PYTHON "
+    execute="$source"
+  else
+    command="$BASH "
+    execute="$source"
+  fi
+}
+
+# la función elimina las líneas en blanco y los espacios finales de un archivo dado
+remove-blanks() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i "" 's/[[:space:]]*$//' "$1"
+    sed -i "" -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$1"
+  else
+    sed -i 's/[[:space:]]*$//' "$1"
+    sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$1"
+  fi
+}
+
+run_tests() {
+  allAccepted=true
+  filter="^(.*\.|.{0})in(\..*|.{0})$"
+  replace="s/^in\./out./;s/\.in\./.out./;s/\.in$/.out/"
+
+  total_memory=$(cat /proc/meminfo | grep MemTotal | cut -d " " -f 9)
+
+  cd "test/$name/"
+  for fin in *; do
+    if [ "$(echo $fin | grep -E "$filter")" == "" ]; then
+      continue
+    fi
+
+    # del archivo de entrada oficial hacer un archivo de salida con el mismo formato
+    fout="$(echo $fin | sed $replace )"
+
+    remove-blanks "$fin"
+    # omitir archivo de entrada vacío
+    if [ ! -s "$fin" ]; then
+      continue
+    fi
+
+    echo "* $fin:"
+
+    # eliminar líneas en blanco del archivo de salida
+    if [ -e "$fout" ]; then
+      remove-blanks "$fout"
+    fi
+
+    compareResults=false
+
+    # Eliminar viejo usuario si existe
+    rm "$fout.user" 2> /dev/null
+
+    # por defecto, la salida es consola stdout
+    foutuser="/dev/stdout"
+
+    # si el archivo de salida existe y no está vacío, entonces la salida es al archivo .user
+    if [ -e "$fout" ] && [ -s "$fout" ]; then
+      foutuser="$fout.user"
+      compareResults=true
+    fi
+
+    # use el usuario como stdin si '$' al comienzo del archivo .in
+    if [ "$(cat "$fin" | head -n 1 | cut -c 1)" == "$" ]; then
+      fin="/dev/stdin"
+    fi
+
+    # use la salida estándar de la consola como salida si '$' al comienzo del archivo de salida
+    if [ -e "$fout" ] && [ "$(cat "$fout" | head -n 1 | cut -c 1)" == "$" ]; then
+      compareResults=false
+      foutuser="/dev/stdout"
+    elif [ -e "$fout" ] && [ "$(cat "$fout" | head -n 1 | cut -c 1)" == "!" ]; then
+      compareResults=false
+    fi
+
+    # si lee de archivo
+    if [ "$fin" != "/dev/stdin" ]; then
+      # Vincular el descriptor de archivo n. #6 con stdin
+      exec 6<&0
+      # Reemplazar stdin con archivo
+      exec < "$fin"
+    fi
+
+    while read -r line; do
+      echo "$line"
+    done | $command"$execute" > "$foutuser" &
+
+    # obtener el pid del programa ejecutado
+    pid=$!
+
+    # Espere a que termine el proceso de entrada ev - ignorando el tiempo de entrada
+    while ps -p $(($pid - 1)) > /dev/null; do continue; done;
+
+    # obtener uso de memoria
+    memory=$(ps -p $pid -o %mem | sed 1d | sed 's/ //')
+    if [[ $memory == "" ]]; then
+      memory="0"
+    fi
+
+    if [ "$fin" != "/dev/stdin" ]; then
+      # Restaure stdin desde el descriptor de archivo #6 y cierre el descriptor de archivo # 6
+      exec 0<&6 6<&-
+    fi
+
+    # medir el tiempo de ejecución del proceso
+    tle=false
+    start=$(date +%s%N)
+    end=$(date +%s%N)
+    diff=$(bc <<< "scale=6; ($end - $start)/1000000000" | sed 's/^\./0./')
+    while ps -p $pid > /dev/null; do
+      end=$(date +%s%N)
+      diff=$(bc <<< "scale=6; ($end - $start)/1000000000" | sed 's/^\./0./')
+      new_memory=$(ps -p $pid -o %mem | sed 1d | sed 's/ //')
+      if [[ $new_memory != "" && $(bc <<< "$new_memory > $memory") == 1 ]]; then
+        memory=$new_memory
+      fi
+
+      if [[ $(bc <<< "$diff > $EVT") == 1 ]]; then
+        kill -SIGKILL $pid &> /dev/null
+        wait $! &> /dev/null
+        memory=$(bc <<< "scale=6; $total_memory*$memory/102400" | sed 's/^\./0./')
+        echo -e "${Y}TIEMPO SUPERADO$NC"
+        echo -e "~${C}${diff}s$NC ~${C}${memory}MB$NC"
+        compareResults=false
+        allAccepted=false
+        tle=true
+        if [ "$foutuser" != "/dev/stdout" ]; then
+          rm "$foutuser"
+        fi
+        break;
+      fi
+    done
+
+    memory=$(bc <<< "scale=6; $total_memory*$memory/102400" | sed 's/^\./0./')
+    if [ $compareResults == true ]; then
+      remove-blanks "$foutuser"
+      cmp -s "$fout" "$foutuser"
+      if [ $? -eq 1 ]; then
+        echo -e "${R}RESPUESTA INCORRECTA$NC"
+        echo -e "~${C}${diff}s$NC ~${C}${memory}MB$NC"
+        echo -e "${GY}ev: cheque $foutuser para ayuda$NC"
+        allAccepted=false
+      else
+        echo -e "${G}ACCEPTADO$NC"
+        echo -e "~${C}${diff}s$NC ~${C}${memory}MB$NC"
+        rm "$foutuser"
+      fi
+    elif [ "$foutuser" != "/dev/stdout" ] && [ $tle == false ]; then
+      echo -e "${GY}cheque $foutuser$NC"
+    fi
+
+    echo
+
+  done
+}
+
+fast_run() {
+  # si no se encuentra ningún archivo, no puede continuar
+  if [ "$source" == "" ]; then
+    echo "ev: sin expediente para la ejecución"
+    exit
+  fi
+
+  # si hay un comentario "compilar y ejecutar" especificado, utilícelo
+  custom="$(cat "$source" | grep -E -m 1 "compile and run: " | cut -d ":" -f 2 | sed "s/\*\///;s/^ *//")"
+  if [[ $custom != "" ]]; then
+    echo " - $source -"
+    echo $custom | bash
+  else
+    compile
+    echo " - $source -"
+    $command"$execute"
+  fi
+  exit
+}
+
+check_for_tests() {
+  # si no hay un directorio de 'prueba'
+  if [ ! -d "test/$name/" ]; then
+    echo "* Creado carpeta test/$name/"
+    mkdir -p "test/$name"
+  fi
+
+  # comprobar si existen pruebas
+  tests=$(ls "test/$name/" 2> /dev/null)
+  if [ "$tests" == "" ]; then
+    # create 2 input/output files
+    for case in {1..2}; do
+      touch "test/$name/$name.$case.in"
+      echo "* creado test/$name/$name.$case.in"
+      touch "test/$name/$name.$case.out"
+      echo "* creado test/$name/$name.$case.out"
+    done
+    exit
+  fi
+}
+
+project_run() {
+  if [[ $1 == "java" ]]; then
+    source="$2"
+    if [[ ! -e $source ]]; then
+      echo "ev: no such file $source"
+      exit
+    fi
+
+    root_dir=${source%%/*}
+    name=${source%%.*}; name=${name##*/}
+
+    errors=$(javac "$root_dir"/*.java 2>&1> /dev/null)
+    if [[ $errors != "" ]]; then
+      echo -e "${R}ERROR DE COMPILACIOn$NC"
+      echo "$errors"
+      exit
+    fi
+
+
+    check_for_tests
+
+    cp $root_dir/*.class "test/$name/"
+
+    command="java "
+    execute="$name"
+
+  echo " - $source -"
+  echo "Tiempo limite: ${EVT}s"
+  echo
+
+    run_tests
+
+    cd ../../
+
+    rm $root_dir/*.class
+
+    rm test/"$name"/*.class
+  elif [[ $1 == "cpp" ]]; then
+    source="$2"
+    name=${source##*/}
+    command="./../../"
+    execute="$2"
+    echo " - $source -"
+    run_tests
+  fi
+
+  exit
+}
+
+if [[ $1 == "-r" ]]; then
+  fast_run
+elif [[ $1 == "-p" ]]; then
+  project_run $2 $3
+fi
+
+# si no se encuentra una linea que no continue
+if [[ $source == "" ]]; then
+  echo "ev: ningun archivo para execucion"
+  exit
+elif [[ ! -f $source ]]; then
+  echo "ev: No se ha encontrado $source"
+  exit
+fi
+
+compile
+
+if [[ "$extension" != "java" ]]; then
+  execute="../../""$execute"
+fi
+
+echo " - $source -"
+echo "Tiempo limite: ${EVT}s"
+echo
+
+check_for_tests
+
+if [ "$extension" == "java" ]; then
+  cp "$name.class" "test/$name/"
+fi
+
+run_tests
+
+if [ "$extension" == "java" ]; then
+  rm "$name.class"
+fi
+
+cd ../../
+
+# si el usuario tiene todo correctamente eliminar el archivo de objeto creado
+if [ $allAccepted == true ]; then
+  if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
+    rm "$name".out 2> /dev/null
+  elif [ "$extension" == "java" ]; then
+    rm "$name.class"
+  fi
+fi

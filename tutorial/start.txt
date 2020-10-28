@@ -1,0 +1,19 @@
+Hola,
+en este tutorial intentaré enseñarte cómo funciona ev. Empecemos.
+
+Si aún no lo ha hecho, instale ev en su computadora.
+Siga estas instrucciones para hacerlo:
+https://github.com/maubg-debug/ev#how-to-install-and-get-updates
+
+Abra esta carpeta de tutoriales en su terminal, nosotros haremos todo el trabajo aquí. Cada
+vez te digo que ejecutes ev, lo estás ejecutando desde esta carpeta.
+
+El tutorial consta de 8 lecciones.
+
+Bien, lo primero que aprenderemos es cómo ejecutar ev. Ejecuta ev escribiendo 'ev'
+en tu terminal (no lo hagas todavía). Y es así de simple. Cada vez que lo ejecutas
+de la misma manera.
+
+ev sabe cómo trabajar con archivos .c, .cpp, .rb y .py. Y cada vez que corres ev
+busca el último archivo modificado y usa ese archivo para trabajar. Deja que te enseñe
+lo que quiero decir con eso. Abra el archivo basic.c y siga las instrucciones allí.

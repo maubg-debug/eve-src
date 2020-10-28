@@ -1,0 +1,26 @@
+ - run-file.c -
+* run-file.1.in:
+ACCEPTED
+
+* run-file.3.in:
+this is what you see
+
+* run-file.4.in:
+this you should see
+
+* run-file.5.in:
+WRONG ANSWER
+ev: check run-file.5.out.user for help
+
+* run-file.6.in:
+check run-file.6.out.user
+
+* run-file.7.in:
+TIME LIMIT EXCEEDED
+
+* run-file.8.in:
+TIME LIMIT EXCEEDED
+
+* run-file.9.in:
+ACCEPTED
+
