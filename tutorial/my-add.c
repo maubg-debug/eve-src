@@ -2,12 +2,12 @@
 Modifique este archivo y guárdelo. Puede eliminar la siguiente línea para hacer eso.
 ------------- BORRAR ESTA LÍNEA -------------
 
-Ejecute ev y vea qué pasó. Tienes esta salida:
+Ejecute eve y vea qué pasó. Tienes esta salida:
  - my-add.c -
-* prueba / my-add / my-add.1.in:
+* test/my-add/my-add.1.in:
 ACEPTADO
 
-* prueba / my-add / my-add.2.in:
+* test/my-add/my-add.2.in:
 ACEPTADO
 
 Primero echemos un vistazo a lo que tenemos en los archivos my-add.1.in y my-add.1.out

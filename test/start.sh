@@ -2,23 +2,22 @@
 
 print-status() {
   if [ $1 == true ]; then
-    echo "PASSED"
+    echo "PASADO"
   else
-    echo "FAILED"
+    echo "FALLADO"
   fi
 }
 
 EVC=false
 
-# Test run-file
 echo ' - run-file -'
 status=true
 rm test/run-file/*.out.user &> /dev/null
 touch -m run-file.c
-echo "ignore-blanks     " > test/run-file/run-file.9.in
+echo "Ignora-espacios     " > test/run-file/run-file.9.in
 echo >> test/run-file/run-file.9.in
 echo >> test/run-file/run-file.9.in
-echo "correct       " > test/run-file/run-file.9.out
+echo "Correcto       " > test/run-file/run-file.9.out
 echo >> test/run-file/run-file.9.out
 echo >> test/run-file/run-file.9.out
 ev | > /dev/null tee test/run-file/actual-output
@@ -37,12 +36,11 @@ print-status $status
 rm run-file.out
 rm test/run-file/actual-output
 
-# Test wa-leave
 echo ' - wa-leave -'
 status=true
 rm test/wa-leave/*.out.user &> /dev/null
 touch -m wa-leave.c
-ev | > /dev/null tee test/wa-leave/actual-output
+eve | > /dev/null tee test/wa-leave/actual-output
 cmp -s test/wa-leave/actual-output test/wa-leave/expected-output
 if [ $? -eq 1 ]; then
   status=false
@@ -57,32 +55,29 @@ print-status $status
 rm wa-leave.out
 rm test/wa-leave/actual-output
 
-# Test space in py or rb name
-echo ' - space in py or rb name -'
+echo ' - espacio en el nombre py o rb -'
 status=true
-touch -m "space in py or rb name.py"
-ev | > /dev/null tee "test/space in py or rb name/actual-output"
-cmp -s "test/space in py or rb name/actual-output" "test/space in py or rb name/expected-output"
+touch -m "espacio en py o rb nombre.py"
+ev | > /dev/null tee "test/space en py o rb nombre/actual-output"
+cmp -s "test/space en nombre py o rb/actual-output" "test/space en py o rb nombre/expected-output"
 if [ $? -eq 1 ]; then
   status=false
 fi
 print-status $status
 rm "test/space in py or rb name/actual-output"
 
-# Test space in c name
-echo ' - space in c name -'
+echo ' - espacio en c nombre -'
 status=true
-touch -m "space in c name.c"
-ev | > /dev/null tee "test/space in c name/actual-output"
-cmp -s "test/space in c name/actual-output" "test/space in c name/expected-output"
+touch -m "espacio en c nombre.c"
+ev | > /dev/null tee "test/space en c nombre/actual-output"
+cmp -s "test/space en c name/actual-output" "test/space in c name/expected-output"
 if [ $? -eq 1 ]; then
   status=false
 fi
 print-status $status
 rm "test/space in c name/actual-output"
 
-# Test JavaTest
-echo ' - JavaTest -'
+echo ' - TestJava -'
 status=true
 rm test/JavaTest/*.out.user &> /dev/null
 touch -m JavaTest.java

@@ -6,24 +6,24 @@ char input[201];
 int main(void) {
   scanf("%s", input);
   if (!strcmp(input, "basic")) {
-    printf("hello, world\n");
+    printf("Hola, mundo\n");
   } else if (!strcmp(input, "to-console")) {
-    printf("this is what you see\n");
+    printf("esto es lo que ves\n");
   } else if (!strcmp(input, "to-console-2")) {
-    printf("this you should see\n");
+    printf("esto deberías ver\n");
   } else if (!strcmp(input, "WA")) {
-    printf("I am stupid, this is wrong.\n");
+    printf("Soy estupido esto esta mal.\n");
   } else if (!strcmp(input, "no-compare")) {
-    printf("I am in a file!\n");
+    printf("¡Estoy en un archivo!\n");
   } else if (!strcmp(input, "TLE-file")) {
-    printf("Long time no see.\n");
+    printf("No hay tiempo para ver.\n");
     while(1) continue;
   } else if (!strcmp(input, "TLE-console")) {
-    printf("First some output in console.\n");
-    printf("Then another one.\n");
+    printf("Primero algo de salida en la consola.\n");
+    printf("Luego otra.\n");
     while(1) continue;
   } else if (!strcmp(input, "ignore-blanks")) {
-    printf("correct\n");
+    printf("Correcto\n");
   }
   return 0;
 }

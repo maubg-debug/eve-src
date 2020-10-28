@@ -1,7 +1,7 @@
 /*
-Modifique este archivo y ejecute ev. Mira lo que pasó.
+Modifique este archivo y ejecute eve. Mira lo que pasó.
 
-Si el primer carácter del archivo .out es '!' entonces ev no comparará sus resultados.
+Si el primer carácter del archivo .out es '!' entonces eve no comparará sus resultados.
 Su salida se guardará en el archivo .user.out. Esto es útil cuando quieres
 depure su programa y tendrá una gran salida.
 

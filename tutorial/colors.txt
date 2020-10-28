@@ -1,7 +1,7 @@
-Por defecto, ev no usa salida coloreada, pero puede decirle que la use.
+Por defecto, eve no usa salida coloreada, pero puede decirle que la use.
 
-Es simple. ev busca la variable de entorno $ EVC. Si el valor de $ EVC es
-'true' ev usará salida coloreada.
+Es simple. eve busca la variable de entorno $ EVC. Si el valor de $ EVC es
+'true' eve usará salida coloreada.
 
 Puede establecer esta variable de muchas formas. Si desea que sea permanente, puede
 escriba el siguiente comando en su script ~ / .profile:
@@ -16,9 +16,9 @@ salida coloreada para esa sesión de consola.
 
 Una vez que tenga esta variable, puede hacer cosas como esta:
   $ EVC=true
-  $ ev
+  $ eve
   $ EVC=false
-  $ ev
+  $ eve
 
 Básicamente, puede alternar entre salida coloreada.
 

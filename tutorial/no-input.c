@@ -1,5 +1,5 @@
 /*
-Modifique este archivo y ejecute ev. Mira lo que pasó.
+Modifique este archivo y ejecute eve. Mira lo que pasó.
 
 Es simple. Si algún archivo .in está vacío, se omitirá.
 

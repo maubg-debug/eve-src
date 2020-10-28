@@ -12,7 +12,7 @@ public class JavaTest {
       } else if (line.equals("tle")) {
         while(true) continue;
       } else {
-        System.out.println("hello, world");
+        System.out.println("Hola, mundo");
       }
     } catch (IOException e) {
       e.printStackTrace();

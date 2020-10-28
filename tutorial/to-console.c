@@ -1,7 +1,7 @@
 /*
-Modifique este archivo y ejecute ev. Mira lo que pasó.
+Modifique este archivo y ejecute eve. Mira lo que pasó.
 
-Si el primer carácter en el archivo .out es '$', ev no comparará sus resultados.
+Si el primer carácter en el archivo .out es '$', eve no comparará sus resultados.
 Su salida se le presentará a través de la terminal. Esto es útil cuando
 desea depurar su programa.
 
