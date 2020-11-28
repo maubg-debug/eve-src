@@ -1,35 +1,35 @@
 #!/bin/bash
-# Smart tool for task testing in Competitive Programming.
+# Herramienta inteligente para pruebas de tareas en Programación Competitiva.
 #
 # Copyright (C) 2014 Herman Zvonimir Došilović
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
+# Este programa es software libre; puedes redistribuirlo y / o modificar
+# bajo los términos de la Licencia Pública General GNU publicada por
+# la Free Software Foundation; ya sea la versión 2 de la licencia, o
+# (a su elección) cualquier versión posterior.
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# Este programa se distribuye con la esperanza de que sea útil,
+# pero SIN NINGUNA GARANTÍA; sin siquiera la garantía implícita de
+# COMERCIABILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Ver el
+# Licencia pública general GNU para más detalles.
 #
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# Debería haber recibido una copia de la Licencia Pública General GNU junto
+# con este programa; si no, escriba a Free Software Foundation, Inc.,
+# 51 Franklin Street, quinto piso, Boston, MA 02110-1301 EE. UU.
 
-# specify your C compiler
+# especifica tu compilador de C
 GCC=gcc
 
-# specify your C++ compiler
+# especifica tu compilador C ++
 GPP=g++
 
-# specify your Ruby interpreter
+# especifica tu intérprete Ruby
 RUBY=ruby
 
-# specify your Python interpreter
+# especifica tu intérprete de Python
 PYTHON=python
 
-# specify your Bash interpreter
+# especifica tu intérprete Bash
 BASH=bash
 
 # colors settings
