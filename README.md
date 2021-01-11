@@ -18,7 +18,7 @@ _eve_ es un script inteligente que puede hacer mucho por usted. Para darte una i
 
 ### Obtén el tutorial
 
-1. Necesita instalar _eve_. Siga las [instrucciones de instalación](https://github.com/maubg-debug/eve#c%C3%B3mo-instalar-y-obtener-actualizaciones).
+1. Necesita instalar _eve_. Siga las [instrucciones de instalación](https://github.com/maubg-debug/eve-src#c%C3%B3mo-instalar-y-obtener-actualizaciones).
 2. En la carpeta del proyecto _eve_, abra la carpeta `tutorial`.
 3. Abra el archivo `start.txt` y siga las instrucciones.
 
@@ -56,7 +56,7 @@ Probando _eve_ en su máquina
 ----------------------------
 Si desea estar 100% seguro de que _eve_ funciona en su máquina, puede ejecutar pruebas para ello. Siga estas instrucciones para probar _eve_:
 
-1. Necesita instalar _eve_. Siga las [instrucciones de instalación](https://github.com/hermanzdosilovic/eve#how-to-install-and-get-updates).
+1. Necesita instalar _eve_. Siga las [instrucciones de instalación](https://github.com/maubg-debug/eve-src#c%C3%B3mo-instalar-y-obtener-actualizaciones).
 2. En su proyecto _eve_ abra la carpeta `test` en la terminal.
 3. Inicie el script `start.sh`:
 
