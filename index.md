@@ -1,37 +1,100 @@
-## Welcome to GitHub Pages
+eve
+==
 
-You can use the [editor on GitHub](https://github.com/maubg-debug/eve-src/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Herramienta inteligente para pruebas de tareas en programación competitiva.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Idiomas admitidos
+-------------------
 
-### Markdown
+* C
+* C ++
+* Java
+* Python
+* Rubí
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Tutorial: ¿cómo se usa?
+-------------------------
+_eve_ es un script inteligente que puede hacer mucho por usted. Para darte una idea de cómo funciona te preparé un brevee tutorial. Realmente te recomiendo que sigas este tutorial.
 
-```markdown
-Syntax highlighted code block
+### Obtén el tutorial
 
-# Header 1
-## Header 2
-### Header 3
+1. Necesita instalar _eve_. Siga las [instrucciones de instalación](https://github.com/maubg-debug/eve-src#c%C3%B3mo-instalar-y-obtener-actualizaciones).
+2. En la carpeta del proyecto _eve_, abra la carpeta `tutorial`.
+3. Abra el archivo `start.txt` y siga las instrucciones.
 
-- Bulleted
-- List
+Cómo instalar y obtener actualizaciones
+------------------------------
 
-1. Numbered
-2. List
+La idea básica de la instalación es poder ejecutar _eve_ en cada directorio desde su terminal.
+Así que básicamente necesitas copiar o enlazar el script eve `en algún directorio que esté en tu variable ambiental `$PATH`, por ejemplo/usr/local/bin/`.
 
-**Bold** and _Italic_ and `Code` text
+### Instalar en pc
 
-[Link](url) and ![Image](src)
+Elija cualquier directorio en el que guardará este proyecto. En ese directorio ejecute estos comandos:
+```
+$ git clone https://github.com/maubg-debug/eve.git
+$ cd eve
+$ sudo chmod +x eve
+$ sudo ln -s $(pwd)/eve /usr/local/bin/eve
+```
+### Obtener actualizaciones
+
+En el directorio del proyecto _eve_ ejecute este comando:
+```
+$ git pull origin master
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Como correr
+----------
+Siempre corres _eve_ de la misma manera.
+```
+$ eve
+```
+Y esa es la belleza de eso. Disfruta :)
 
-### Jekyll Themes
+Probando _eve_ en su máquina
+----------------------------
+Si desea estar 100% seguro de que _eve_ funciona en su máquina, puede ejecutar pruebas para ello. Siga estas instrucciones para probar _eve_:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/maubg-debug/eve-src/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+1. Necesita instalar _eve_. Siga las [instrucciones de instalación](https://github.com/maubg-debug/eve-src#c%C3%B3mo-instalar-y-obtener-actualizaciones).
+2. En su proyecto _eve_ abra la carpeta `test` en la terminal.
+3. Inicie el script `start.sh`:
 
-### Support or Contact
+$ sudo chmod +x start.sh
+$ ./start.sh
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Si se aprobaron todas las pruebas, debería ver el siguiente resultado:
+
+- ejecutar-archivo -
+APROBADO
+- wa-leave -
+APROBADO
+- espacio en el nombre py o rb -
+APROBADO
+- espacio en c nombre -
+APROBADO
+- JavaTest -
+APROBADO
+
+Si algunas de las pruebas fallaron, comuníquese conmigo para que podamos mejorar _eve_. :)
+
+
+Contribuyendo
+------------
+1. Bifurcarlo
+2. Cree su rama de características (`git checkout -b my-new-feature`)
+3. Confirme sus cambios (`git commit -am 'Add some feature'`)
+4. Empuje a la rama (`git push origin my-new-feature`)
+5. Cree una nuevea solicitud de extracción
+
+Licencia
+-------
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
